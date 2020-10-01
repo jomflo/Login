@@ -1,8 +1,15 @@
 var firebaseConfig= {
-	// Tus credenciales de firebase
+	apiKey: "AIzaSyAsKnHHEftjEVxKB2xxsj4r0EtON1saFg4",
+ 	authDomain: "login-293c3.firebaseapp.com",
+ 	databaseURL: "https://login-293c3.firebaseio.com",
+ 	projectId: "login-293c3",
+ 	storageBucket: "login-293c3.appspot.com",
+ 	messagingSenderId: "331717350518",
+ 	appId: "1 :331717350518:web:a30273f15be7cb380d7b57",
+ 	measurementId: "G-NGGWRH0SGE"
 }
 
-//iNITIALIZE fIREBASE
+//INITIALIZE fIREBASE
 const app = firebase.initializeApp(firebaseConfig)
 
 var db = app.firestore();
@@ -15,8 +22,7 @@ function guardar(){
 	var tabla = document.getElementById("tablaprueba");
 	
     //Guardar los datos ingresados en las cajas de texto en la base de datos
-	db.collection("Users")
-		.add({
+	db.collection("Users").add({
 			nombre: user.value,
 			contrasenia: password.value
 		})
@@ -42,7 +48,7 @@ function editar(){
 
 function ver(){
 	var latabla = document.getElementById("latabla");
-	db.collection("Users").get().then((querySnapshot) => {
+	db.collection("Users").onSnapshot((querySnapshot) => {
 		latabla.innerHTML="";
 		querySnapshot.forEach((doc) => {
 			console.log(`${doc.id} => ${doc.data()}`);
