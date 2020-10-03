@@ -11,11 +11,14 @@
   <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
 
 
-  <div class="container">
-    <label>User</label><input type="text" id="user" class="form container"></input>
-    <label>Password</label><input type="text" id="password" class="form container"></input>
-    <button class="btn btn-primary" onclick="guardar()">Guardar</button>
+  <div class="container ">
+    <label><b>User</b></label><input type="text" id="user" class="form container" ></input>
+    <label><b>Password</b></label><input type="text" id="password" class="form container"></input>
+    <button class="btn btn-primary" id="boton" onclick="guardar()">Guardar</button>
     <button class="btn btn-primary" onclick="ver()">Ver datos</button>
+    <button class="btn btn-primary" onclick="entrar()">Ya Tienes una cuenta</button>
+    
+
   </div>
 
   <div class="container tabla">
@@ -25,14 +28,12 @@
           <th>Id</th>
           <th>Usuario</th>
           <th>Password</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
         </tr>
       </thead>
       <tbody id="latabla">
-        <tr>
-          <th scope="row">1</th>
-          <td>Jose</td>
-          <td>4321</td>
-        </tr>
+      
       </tbody>
     </table>
   </div>

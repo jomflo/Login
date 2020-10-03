@@ -19,7 +19,6 @@ function guardar(){
 
 	var user = document.getElementById("user");
     var password = document.getElementById("password");
-	var tabla = document.getElementById("tablaprueba");
 	
     //Guardar los datos ingresados en las cajas de texto en la base de datos
 	db.collection("Users").add({
@@ -41,18 +40,96 @@ function guardar(){
     
 }
 
-//funcion para editar los datos de un usuario al presionar el boton editar
-function editar(){
-	alert("a");
-}
-
 function ver(){
 	var latabla = document.getElementById("latabla");
 	db.collection("Users").onSnapshot((querySnapshot) => {
 		latabla.innerHTML="";
 		querySnapshot.forEach((doc) => {
 			console.log(`${doc.id} => ${doc.data()}`);
-			latabla.innerHTML+= `<tr><th scope="row">${doc.id}</th><td>${doc.data().nombre}</td><td>${doc.data().contrasenia}</td></tr>`
+			latabla.innerHTML+= `
+			<th scope="row">${doc.id}</th>
+			<td>${doc.data().nombre}</td>
+			<td>${doc.data().contrasenia}</td>
+			<td><button class="btn btn-warning" onclick="editar('${doc.id}','${doc.data().nombre}','${doc.data().contrasenia}')">Editar</button></td>
+   			<td> <button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
+			</tr>`
 		});
 	});
+}
+
+//Borrar documento
+function eliminar(Id)
+{
+	db.collection("Users").doc(Id).delete().then(function() {
+	    console.log("Document successfully deleted!");
+	}).catch(function(error) {
+	    console.error("Error removing document: ", error);
+	});
+}
+
+//actualizar(editar) document
+function editar(Id, nombr , passw)
+{ 
+	document.getElementById("user").value=nombr;
+	document.getElementById("password").value=passw;
+
+	var boton= document.getElementById("boton");
+	boton.innerHTML="Editar";
+	boton.onclick=function(){
+		var washingtonRef = db.collection("User").doc(Id);
+
+	// Set the "capital" field of the city 'DC'
+	var nomb = document.getElementById("user").value;
+	var pass = document.getElementById("password").value;
+	boton.innerHTML="Guardar";
+	    nomb.value="";
+		pass.value="";
+	return washingtonRef.update({
+	    nombre: nomb,
+		contrasenia: pass
+	})
+	.then(function() {
+	    console.log("Document successfully updated!");
+	    boton.innerHTML="Guardar";
+	    user.value="";
+		password.value="";
+	})
+	.catch(function(error) {
+	    // The document probably doesn't exist.
+	    console.error("Error updating document: ", error);
+	    boton.innerHTML="Guardar";
+	    user.value="";
+		password.value="";
+	});
+	}	
+}
+
+function entrar(){
+	//var url="https://www.google.com";
+	//$(location).attr('href',url);
+	//miweb: "https://jomflo.github.io/miweb/";
+	var usuario= document.getElementById("user").value;
+	var clave=document.getElementById("password").value;
+
+		document.getElementById("user").value="";
+		document.getElementById("password").value="";
+		var usuarioo;
+		var clavee;
+
+db.collection("Users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+        if(usuario==`${doc.data().nombre}` & clave==`${doc.data().contrasenia}` & usuario!="" & clave!="")
+			{
+				usuarioo=`${doc.data().nombre}` ;
+				clavee=`${doc.data().contrasenia}`;
+				location.href="https://jomflo.github.io/miweb/";
+			}
+    });
+    
+			if(usuario!=usuarioo & clave!=clavee)
+			{
+				alert("Usted no tiene una cuenta aun");
+			}
+});	
 }
