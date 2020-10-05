@@ -46,6 +46,8 @@ function guardar(){
 	var user = document.getElementById("user");
     var password = document.getElementById("password");
 	
+	if(user.value!="" & password!="")
+	{
     //Guardar los datos ingresados en las cajas de texto en la base de datos
 	db.collection("Users").add({
 			nombre: user.value,
@@ -63,6 +65,11 @@ function guardar(){
 			alert("No se pudo Guardar");
 		});
 		//fin de guardar datos
+	}
+	else
+	{
+		alert("No se puede registrar, Debe llenar los campos");
+	}
     
 }
 
@@ -85,43 +92,14 @@ function eliminar(Id)
 
 function editar(Id, nombr , passw)
 { 
-		//btnguardar.disabled=true;
+		//desactivamos los botones resgistrarte y tienes una cuenta, habiltamos el boton editar
 		btneditar.disabled=false;
 		btntienescuenta.disabled=true;
 		btnguardar.disabled=true;
 		document.getElementById("user").value=nombr;
 	document.getElementById("password").value=passw;
 
-	//botonguardar.innerHTML="Editar";
-
 		elId=Id;
-		/*btn.onclick=function(Id)
-		{
-			var washingtonRef = db.collection("User").doc(Id);
-
-	var nomb = document.getElementById("user").value
-	var pass = document.getElementById("password").value
-	alert("editar exxito al inicio");
-	// Set the "capital" field of the city 'DC'
-	return washingtonRef.update({
-	    nombre: nomb,
-		contrasenia: pass
-	})
-	.then(function() {
-		alert("editar exxito");
-	    console.log("Document successfully updated!");
-	    user.value="";
-		password.value="";
-	})
-	.catch(function(error) {
-		alert("editar no exxito");
-	    // The document probably doesn't exist.
-	    console.error("Error updating document: ", error);
-	    boton.innerHTML="Guardar";
-	    user.value="";
-		password.value="";
-	});
-		}*/
 }	
 
 function editarUsuario()
@@ -141,13 +119,13 @@ function editarUsuario()
 		contrasenia: pass
 	})
 	.then(function() {
-		alert("editar exxito");
+		alert("Actualizado");
 	    console.log("Document successfully updated!");
 	    user.value="";
 		password.value="";
 	})
 	.catch(function(error) {
-		alert("editar no exxito");
+		alert("No se pudo actualizar, intentelo de nuevo");
 	    // The document probably doesn't exist.
 	    console.error("Error updating document: ", error);
 	    boton.innerHTML="Guardar";
