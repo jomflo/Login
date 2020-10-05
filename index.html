@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
 </head>
-<body>
+<body onload="cargarDocumento()">
   <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
 
 
   <div class="container ">
     <label><b>User</b></label><input type="text" id="user" class="form container" ></input>
     <label><b>Password</b></label><input type="text" id="password" class="form container"></input>
-    <button class="btn btn-primary" id="boton" onclick="guardar()">Guardar</button>
-    <button class="btn btn-primary" onclick="ver()">Ver datos</button>
-    <button class="btn btn-primary" onclick="entrar()">Ya Tienes una cuenta</button>
+    <button class="btn btn-primary" id="botonguardar" onclick="guardar()">Registrate</button>
+    <button class="btn btn-primary" id="botoneditar" onclick="editarUsuario('id')">Editar Usuario</button>
+    <button class="btn btn-primary" id="botontienecuenta" onclick="entrar()">Ya Tienes una cuenta</button>
     
 
   </div>

@@ -14,6 +14,32 @@ const app = firebase.initializeApp(firebaseConfig)
 
 var db = app.firestore();
 
+
+
+
+	//Cargar el documento
+	//function cargarDocumento()
+	//{
+		var btneditar=document.getElementById("botoneditar");
+		btneditar.disabled=true;
+
+		//Cargar todos lo registros
+		var latabla = document.getElementById("latabla");
+			db.collection("Users").onSnapshot((querySnapshot) => {
+				latabla.innerHTML="";
+				querySnapshot.forEach((doc) => {
+					console.log(`${doc.id} => ${doc.data()}`);
+					latabla.innerHTML+= `
+					<th scope="row">${doc.id}</th>
+					<td>${doc.data().nombre}</td>
+					<td>${doc.data().contrasenia}</td>
+					<td><button class="btn btn-warning" onclick="editar('${doc.id}','${doc.data().nombre}','${doc.data().contrasenia}')">Editar</button></td>
+		   			<td> <button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
+					</tr>`
+				});
+			});
+	//}
+	
 //funcion para guardar el registro de un usuario
 function guardar(){
 
@@ -40,23 +66,6 @@ function guardar(){
     
 }
 
-function ver(){
-	var latabla = document.getElementById("latabla");
-	db.collection("Users").onSnapshot((querySnapshot) => {
-		latabla.innerHTML="";
-		querySnapshot.forEach((doc) => {
-			console.log(`${doc.id} => ${doc.data()}`);
-			latabla.innerHTML+= `
-			<th scope="row">${doc.id}</th>
-			<td>${doc.data().nombre}</td>
-			<td>${doc.data().contrasenia}</td>
-			<td><button class="btn btn-warning" onclick="editar('${doc.id}','${doc.data().nombre}','${doc.data().contrasenia}')">Editar</button></td>
-   			<td> <button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
-			</tr>`
-		});
-	});
-}
-
 //Borrar documento
 function eliminar(Id)
 {
@@ -67,39 +76,84 @@ function eliminar(Id)
 	});
 }
 
-//actualizar(editar) document
-function editar(id, nombr , passw)
+		//aqui obtenemos cada boton :Registrate, editar, y tienes una cuenta
+		var btntienescuenta=document.getElementById("botontienecuenta");
+		var btneditar=document.getElementById("botoneditar");
+		var btnguardar=document.getElementById("botonguardar");
+
+		var elId;
+
+function editar(Id, nombr , passw)
 { 
-	document.getElementById("user").value=nombr;
+		//btnguardar.disabled=true;
+		btneditar.disabled=false;
+		btntienescuenta.disabled=true;
+		btnguardar.disabled=true;
+		document.getElementById("user").value=nombr;
 	document.getElementById("password").value=passw;
 
-	var boton= document.getElementById("boton");
-	boton.innerHTML="Editar";
-	boton.onclick=function(){
-		var washingtonRef = db.collection("User").doc(id);
+	//botonguardar.innerHTML="Editar";
 
+		elId=Id;
+		/*btn.onclick=function(Id)
+		{
+			var washingtonRef = db.collection("User").doc(Id);
+
+	var nomb = document.getElementById("user").value
+	var pass = document.getElementById("password").value
+	alert("editar exxito al inicio");
 	// Set the "capital" field of the city 'DC'
-	var nomb = document.getElementById("user").value;
-	var pass = document.getElementById("password").value;
-	boton.innerHTML="Guardar";
 	return washingtonRef.update({
 	    nombre: nomb,
 		contrasenia: pass
 	})
 	.then(function() {
+		alert("editar exxito");
 	    console.log("Document successfully updated!");
-	    boton.innerHTML="Guardar";
 	    user.value="";
 		password.value="";
 	})
 	.catch(function(error) {
+		alert("editar no exxito");
 	    // The document probably doesn't exist.
 	    console.error("Error updating document: ", error);
 	    boton.innerHTML="Guardar";
 	    user.value="";
 		password.value="";
 	});
-	}	
+		}*/
+}	
+
+function editarUsuario()
+{
+	//activamos los botones resgistrarte y tienes una cuenta, desabiltamos el boton editar
+		btneditar.disabled=true;
+		btntienescuenta.disabled=false;
+		btnguardar.disabled=false;
+
+	var washingtonRef = db.collection("Users").doc(elId);
+
+	var nomb = document.getElementById("user").value;
+	var pass = document.getElementById("password").value;
+	// Set the "capital" field of the city 'DC'
+	return washingtonRef.update({
+	    nombre: nomb,
+		contrasenia: pass
+	})
+	.then(function() {
+		alert("editar exxito");
+	    console.log("Document successfully updated!");
+	    user.value="";
+		password.value="";
+	})
+	.catch(function(error) {
+		alert("editar no exxito");
+	    // The document probably doesn't exist.
+	    console.error("Error updating document: ", error);
+	    boton.innerHTML="Guardar";
+	    user.value="";
+		password.value="";
+	});
 }
 
 function entrar(){
@@ -114,7 +168,7 @@ function entrar(){
 		var usuarioo;
 		var clavee;
 
-db.collection("Users").get().then((querySnapshot) => {
+db.collection("Users").onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${doc.data()}`);
         if(usuario==`${doc.data().nombre}` & clave==`${doc.data().contrasenia}` & usuario!="" & clave!="")
