@@ -68,7 +68,7 @@ function eliminar(Id)
 }
 
 //actualizar(editar) document
-function editar(Id, nombr , passw)
+function editar(id, nombr , passw)
 { 
 	document.getElementById("user").value=nombr;
 	document.getElementById("password").value=passw;
@@ -76,14 +76,12 @@ function editar(Id, nombr , passw)
 	var boton= document.getElementById("boton");
 	boton.innerHTML="Editar";
 	boton.onclick=function(){
-		var washingtonRef = db.collection("User").doc(Id);
+		var washingtonRef = db.collection("User").doc(id);
 
 	// Set the "capital" field of the city 'DC'
 	var nomb = document.getElementById("user").value;
 	var pass = document.getElementById("password").value;
 	boton.innerHTML="Guardar";
-	    nomb.value="";
-		pass.value="";
 	return washingtonRef.update({
 	    nombre: nomb,
 		contrasenia: pass
