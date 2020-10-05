@@ -17,9 +17,7 @@ var db = app.firestore();
 
 
 
-	//Cargar el documento
-	//function cargarDocumento()
-	//{
+
 		var btneditar=document.getElementById("botoneditar");
 		btneditar.disabled=true;
 
@@ -38,7 +36,6 @@ var db = app.firestore();
 					</tr>`
 				});
 			});
-	//}
 	
 //funcion para guardar el registro de un usuario
 function guardar(){
